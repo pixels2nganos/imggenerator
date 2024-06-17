@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Générateur d'images</title>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script> 
+</head>
+<body>
+  <div>
+    <h1>Générer une image avec DeepAI</h1>
+    <input type="text" id="description" placeholder="Entrez votre description ici...">
+    <button onclick="genererImage()">Générer</button>
+  </div>
+  <div>
+    <img id="imageGeneree" src="" alt="Image générée" style="max-width: 500px;">
+  </div>
+
+  <script>
+    function genererImage() {
+      const description = document.getElementById("description").value;
+      const apiKey = "c6c94851-60fd-4e60-884d-6c6b404e0c1a"; 
+
+      const data = {
+        "text": description
+      };
+
+      axios.post(
+        "https://api.deepai.org/api/text2img", 
+        data,
+        { headers: { "apiKey": apiKey } }
+      )
+      .then(response => {
+        document.getElementById("imageGeneree").src = response.data.output_url;
+      })
+      .catch(error => {
+        console.error("Erreur:", error);
+      });
+    }
+  </script>
+</body>
+</html>
